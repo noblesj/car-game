@@ -20,7 +20,7 @@ public class Car {
         endPosition = 0;
     }
 
-    public Car(String colorCar,int startPosition, int endPosition,) {
+    public Car(String colorCar,int startPosition, int endPosition) {
         engine = (Math.random() * 3) + 2;
         tires = (Math.random() * 3) + 2;
         if ((int)(Math.random() * 3 + 1) == 1) {
@@ -92,8 +92,6 @@ public class Car {
     public void setEndPosition(int a){
         endPosition = a;
     }
-
-
 
 
 }
