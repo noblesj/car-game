@@ -4,9 +4,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Gamewindow extends JFrame {
+
+import javax.swing.JFrame;
+
+public class GameWindow extends JFrame {
+    public GameWindow() {
+        setTitle("Second Window");
+        setSize(300, 200);
+        setLocation(450, 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+//Commented the GameWindow code below
+/*
+public class GameWindow extends JFrame {
     //start ui
-    public Gamewindow() {
+    public GameWindow() {
         super("Car Racing Game");
         initialize();
         createGUI();
@@ -42,3 +55,4 @@ public class Gamewindow extends JFrame {
 
     }
 }
+ */
