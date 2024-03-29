@@ -2,13 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Gamewindow extends JFrame {
     //start ui
     public Gamewindow() {
         super("Car Racing Game");
         initialize();
-        addComponents();
+        createGUI();
     }
     private int getMaxNumberOfCarsFromUser() {
         String input = JOptionPane.showInputDialog(null, "Enter maximum number of cars:");
