@@ -1,18 +1,11 @@
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            createAndShowGUI();
-        });
-    }
-
-    private static void createAndShowGUI() {
         GameWindow gameWindow = new GameWindow();
-        GameLauncher gameLauncher = new GameLauncher(gameWindow);
-
-
-        gameLauncher.setVisible(true);
+        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.setSize(600, 200);
+        gameWindow.setVisible(true);
     }
 }
