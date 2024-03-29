@@ -1,5 +1,3 @@
-package cargame.src;
-
 public class Car {
 
     private String colorCar;

@@ -4,3 +4,5 @@
  * checkWinner()
  * others if neccessary
  */
+public class GameLogic {
+}

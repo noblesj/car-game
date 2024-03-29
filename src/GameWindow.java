@@ -1,23 +1,15 @@
-/**
- * Set up application window here, and display the game
- * intitialize()
- * This method sets up the window properties ( size, title, and etc.. )
- * addComponents()
- * Adds the game compenents ( like the race track) to the window.
- * other methods if necessary
- */
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Gamewindow extends JFrame {
-    // start ui
-    public CarRacingGameGUI() {
+    //start ui
+    public Gamewindow() {
         super("Car Racing Game");
-        maxNumberOfCars = getMaxNumberOfCarsFromUser();
-        carIcons = new ArrayList<>();
-        initializeRace();
-        createGUI();
+        initialize();
+        addComponents();
     }
-    //get number of cars from the user
     private int getMaxNumberOfCarsFromUser() {
         String input = JOptionPane.showInputDialog(null, "Enter maximum number of cars:");
         try {
@@ -28,4 +20,24 @@ public class Gamewindow extends JFrame {
         }
     }
     private void initializeRace() {
+        // Initialize race with locations
+        List<LocationStop> locations = new ArrayList<>();
+        locations.add(new LocationStop("A"));
+        locations.add(new LocationStop("B"));
+        locations.add(new LocationStop("C"));
+        locations.add(new LocationStop("D"));
+    }
+    private  void createGUI(){
+        JPanel controlPanel = new JPanel();
+        JButton startRaceButton = new JButton("Start Race");
+        startRaceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startRace();
+            }
+        });
+        controlPanel.add(startRaceButton);
+        add(controlPanel, BorderLayout.NORTH);
+
+    }
 }
