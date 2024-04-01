@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class Car {
     private Image image;
@@ -40,7 +42,6 @@ public class Car {
 //        this.calculatedSpeed = engine + tires + boost;
 //        this.startPosition = startPosition;
 //        this.endPosition = endPosition;
-
         this.x = x;
         this.y = y;
         this.width = width;
@@ -54,29 +55,30 @@ public class Car {
         image = tempImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
-    private void rotate(double degrees) {
+    public void rotate(double degrees) {
         rotationAngle += Math.toRadians(degrees);
         rotationAngle = rotationAngle % (2*Math.PI);
     }
 
-    public void moveLeft(int distance) {
-        x-=distance;
-    }
-
-    public void moveRight(int distance) {
-        x+=distance;
-    }
-
     public void moveForward(int distance) {
-        y -= distance;
+        x += distance * Math.sin(rotationAngle);
+        y -= distance * Math.cos(rotationAngle);
     }
 
     public void moveBackward(int distance) {
-        y += distance;
+        x -= distance * Math.sin(rotationAngle);
+        y += distance * Math.cos(rotationAngle);
     }
 
     public Image getImage() {
-        return image;
+        BufferedImage rotatedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotatedImage.createGraphics();
+        AffineTransform at = AffineTransform.getTranslateInstance(width / 2.0, height / 2.0);
+        at.rotate(rotationAngle);
+        at.translate(-width / 2.0, -height / 2.0);
+        g2d.drawImage(image, at, null);
+        g2d.dispose();
+        return rotatedImage;
     }
 
     public int getX() {
