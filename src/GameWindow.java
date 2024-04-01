@@ -18,7 +18,7 @@ public class GameWindow extends JFrame {
 
     private void initializeComponents() {
         ImageIcon background = new ImageIcon("src/images/background.png");
-        ImageIcon track = new ImageIcon("src/images/track.png");
+        ImageIcon track = new ImageIcon("src/images/trackNEW.png");
 
         System.out.println("Background Images and Track Image Imported as an ImageIcon");
 
