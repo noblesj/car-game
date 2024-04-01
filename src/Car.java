@@ -8,6 +8,8 @@ public class Car {
 
     private int width, height;
 
+    private  double rotationAngle = 0; //radians
+
 //    private String colorCar;
 //    private double engine;
 //    private double tires;
@@ -50,6 +52,11 @@ public class Car {
         ImageIcon carIcon = new ImageIcon(imagePath);
         Image tempImage = carIcon.getImage();
         image = tempImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    }
+
+    private void rotate(double degrees) {
+        rotationAngle += Math.toRadians(degrees);
+        rotationAngle = rotationAngle % (2*Math.PI);
     }
 
     public void moveLeft(int distance) {
