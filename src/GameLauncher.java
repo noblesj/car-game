@@ -21,7 +21,6 @@ public class GameLauncher extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 numCars = getMaxNumberOfCarsFromUser();
-                getMaxNumberOfCarsFromUser();
                 setVisible(false);
                 gameWindow.setVisible(true);
             }
