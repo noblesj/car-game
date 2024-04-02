@@ -11,7 +11,7 @@ class RenderPanel extends JPanel {
     public RenderPanel(Car car) {
         this.car = car;
         try {
-            backgroundImage = ImageIO.read(new File("src/images/track.png"));
+            backgroundImage = ImageIO.read(new File("src/images/trackNEW.png"));
         } catch (IOException e) {
             e.printStackTrace();
             backgroundImage = null;
