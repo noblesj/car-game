@@ -12,6 +12,7 @@ public class GameWindow extends JFrame {
     private Car[] cars;
     private RenderPanel renderPanel;
     private long startTime;
+    private  long endTime;
     private int numCars = 4;
 
     private String[] carImagePaths = {
@@ -102,8 +103,13 @@ public class GameWindow extends JFrame {
         });
     }
 
-    private void startRace() {
-        startTime = System.currentTimeMillis(); // Record the start time
+    private void displayRaceResults() {
+        long elapsedTime = endTime - startTime; // Calculate the elapsed time
+        double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
+        JOptionPane.showMessageDialog(null, "Race completed in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void startRace() {
+        startTime = System.currentTimeMillis(); // Record the start time when the race starts
     }
 
 }
