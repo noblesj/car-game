@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameLauncher extends JFrame {
+
+    private int numCars;
     public GameLauncher(GameWindow gameWindow) {
         super("Car Racing Game");
         setSize(300, 200);
@@ -14,6 +16,7 @@ public class GameLauncher extends JFrame {
         startRaceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                numCars = getMaxNumberOfCarsFromUser();
                 getMaxNumberOfCarsFromUser();
                 setVisible(false);
                 gameWindow.setVisible(true);

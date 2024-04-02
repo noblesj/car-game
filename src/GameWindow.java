@@ -3,22 +3,52 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class GameWindow extends JFrame {
-    private Car car;
+    private Car[] cars;
     private RenderPanel renderPanel;
-    private long startTime; // Record the start time
-    private long endTime; // Record the end time
+    private long startTime; // To record the start time of the race
+    private int numCars = 4; // Total number of cars
+
+    private String[] carImagePaths = {
+            "src/images/carBLUE.png",
+            "src/images/carRED.png",
+            "src/images/carYELLOW.png",
+            "src/images/carGREEN.png",
+    };
+
+    private int[][] initialPositions = {
+            {25, 500},
+            {500, 25},
+            {25, 250},
+            {250, 25},
+    };
+
+    private int[][] endPositions = {
+            {55, 50},
+            {50, 250},
+            {250, 25},
+            {25, 250},
+    };
 
     public GameWindow() {
-        car = new Car("src/images/carBLUE.png", 250, 250,25,50);
-        renderPanel = new RenderPanel(car);
-        add(renderPanel);
-        setKeyBindings();
-
         setTitle("Car Movement Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(1000, 1000));
         setLocationRelativeTo(null);
+
+        prepareAndShowGameWindow();
+        setKeyBindings();
         startRace();
+    }
+
+    private void prepareAndShowGameWindow() {
+        cars = new Car[numCars];
+        for (int i = 0; i < numCars; i++) {
+            int x = initialPositions[i][0];
+            int y = initialPositions[i][1];
+            cars[i] = new Car(carImagePaths[i], x, y, 100, 50,25,50); // Width and height are set here
+        }
+        renderPanel = new RenderPanel(cars);
+        add(renderPanel);
     }
 
     private void setKeyBindings() {
@@ -30,7 +60,7 @@ public class GameWindow extends JFrame {
         actionMap.put("rotateLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                car.rotate(-10); // Rotate 10 degrees to the left
+                for (Car car : cars) car.rotate(-10);
                 renderPanel.repaint();
             }
         });
@@ -40,7 +70,7 @@ public class GameWindow extends JFrame {
         actionMap.put("rotateRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                car.rotate(10); // Rotate 10 degrees to the right
+                for (Car car : cars) car.rotate(10);
                 renderPanel.repaint();
             }
         });
@@ -50,12 +80,8 @@ public class GameWindow extends JFrame {
         actionMap.put("moveForward", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                car.moveForwardOrBackward(-10); // Move 10 pixels forward (in the car's direction)
+                for (Car car : cars) car.moveForwardOrBackward(-10);
                 renderPanel.repaint();
-                if (car.hasReachedEnd() && endTime == 0) {
-                    endTime = System.currentTimeMillis(); // Record the end time
-                    displayRaceResults();
-                }
             }
         });
 
@@ -64,17 +90,14 @@ public class GameWindow extends JFrame {
         actionMap.put("moveBackward", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                car.moveForwardOrBackward(10); // Move 10 pixels backward (in the car's direction)
+                for (Car car : cars) car.moveForwardOrBackward(10);
                 renderPanel.repaint();
             }
         });
     }
-    private void displayRaceResults() {
-        long elapsedTime = endTime - startTime; // Calculate the elapsed time
-        double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
-        JOptionPane.showMessageDialog(null, "Race completed in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
+
+    private void startRace() {
+        startTime = System.currentTimeMillis(); // Record the start time
     }
-    public void startRace() {
-        startTime = System.currentTimeMillis(); // Record the start time when the race starts
-    }
+
 }

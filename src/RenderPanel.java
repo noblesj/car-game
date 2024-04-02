@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.IOException;
 
 class RenderPanel extends JPanel {
-    private Car car;
+    private Car[] cars;
     private Image backgroundImage;
 
-    public RenderPanel(Car car) {
-        this.car = car;
+    public RenderPanel(Car[] cars) {
+        this.cars = cars;
         try {
             backgroundImage = ImageIO.read(new File("src/images/trackNEW.png"));
         } catch (IOException e) {
@@ -21,16 +21,14 @@ class RenderPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        // Draw background
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-        } else {
-            g.setColor(Color.GRAY);
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
         }
-        Graphics2D g2d = (Graphics2D) g.create();
-        car.draw(g2d);
-        g2d.dispose();
-    }
 
+        // Draw cars
+        for (Car car : cars) {
+            car.draw(g);
+        }
+    }
 }

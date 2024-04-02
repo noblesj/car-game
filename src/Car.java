@@ -1,5 +1,4 @@
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,22 +8,24 @@ import javax.imageio.ImageIO;
 public class Car {
     private BufferedImage image;
     private double angle = 0;
-    private int x, y;
+    private int initialX, initialY;
+    private int endX, endY;
     private int width, height;
+    private boolean hasReachedEnd = false;
 
-    public Car(String imagePath, int x, int y, int width, int height) {
+    public Car(String imagePath, int initialX, int initialY, int endX, int endY, int width, int height) {
         try {
-
             BufferedImage originalImage = ImageIO.read(new File(imagePath));
-
             this.image = resizeImage(originalImage, width, height);
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.initialX = initialX;
+        this.initialY = initialY;
+        this.endX = endX;
+        this.endY = endY;
+        this.width = width;
+        this.height = height;
     }
 
     private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
@@ -43,17 +44,24 @@ public class Car {
     public void moveForwardOrBackward(int distance) {
         int vertical = (int) (distance * Math.cos(angle));
         int horizontal = (int) (distance * Math.sin(angle));
-        this.y += vertical;
-        this.x -= horizontal;
+        this.initialY += vertical;
+        this.initialX -= horizontal;
     }
 
-    public void draw(Graphics2D g2d) {
-        AffineTransform at = AffineTransform.getRotateInstance(angle, x + width / 2.0, y + height / 2.0);
-        at.translate(x, y);
+    public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        int centerX = initialX + width / 2;
+        int centerY = initialY + height / 2;
+
+        AffineTransform at = AffineTransform.getTranslateInstance(initialX, initialY);
+        at.rotate(angle, centerX - initialX, centerY - initialY);
         g2d.setTransform(at);
         g2d.drawImage(image, 0, 0, null);
+
+        g2d.dispose();
     }
-    private boolean hasReachedEnd = false;
+
 
     //  end position
     public boolean hasReachedEnd() {
@@ -62,7 +70,7 @@ public class Car {
         int endY = 300;
 
         // Calculate the distance between the current position and the end position
-        double distance = Math.sqrt(Math.pow(endX - x, 2) + Math.pow(endY - y, 2));
+        double distance = Math.sqrt(Math.pow(endX - initialX, 2) + Math.pow(endY - initialY, 2));
 
         // Check if the distance is less what required
         if (distance < 10) {
@@ -70,22 +78,24 @@ public class Car {
         } else {
             hasReachedEnd = false;
         }
-
         return hasReachedEnd;
     }
     // Getters and setters
-    public int getX() {
-        return x;
+    public int getInitialX() {
+        return initialX;
     }
-
-    public int getY() {
-        return y;
+    public int getInitialY() {
+        return initialY;
     }
-
+    public int getEndX(){
+        return endX;
+    }
+    public int getEndY(){
+        return endY;
+    }
     public int getWidth() {
         return width;
     }
-
     public int getHeight() {
         return height;
     }
