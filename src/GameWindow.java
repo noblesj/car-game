@@ -2,11 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+
+/**
+  *this is where the second gui for the actual car game is called and method to
+  *run the cargame and who is the winner and how much time the car took to end the race
+  * @Author Ramiz, Jin
+ */
 public class GameWindow extends JFrame {
     private Car[] cars;
     private RenderPanel renderPanel;
-    private long startTime; // To record the start time of the race
-    private int numCars = 4; // Total number of cars
+    private long startTime;
+    private int numCars = 4;
 
     private String[] carImagePaths = {
             "src/images/carBLUE.png",
