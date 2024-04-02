@@ -2,7 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+    /*
+     *THis class use used to make gui for the first  scene, asking the player
+     * if they want to start the car racing game and ask for how many cars
+     * they want
+     * @Author Jin,Ramiz
+    */
 public class GameLauncher extends JFrame {
     public GameLauncher(GameWindow gameWindow) {
         super("Car Racing Game");
@@ -38,7 +43,6 @@ public class GameLauncher extends JFrame {
                 JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.");
             }
 }
-
             JOptionPane.showMessageDialog(null, "Invalid input. Defaulting to 2 cars.");
             return 2; // Default to 2 cars if input is invalid
         }
