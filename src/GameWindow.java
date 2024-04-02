@@ -89,6 +89,13 @@ public class GameWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 for (Car car : cars) car.moveForwardOrBackward(-10);
                 renderPanel.repaint();
+                for (Car car : cars) {
+                    if (car.hasReachedEnd() && endTime == 0) {
+                        endTime = System.currentTimeMillis(); // Record the end time when a car finishes
+                        displayRaceResults();
+
+                    }
+                }
             }
         });
 

@@ -69,8 +69,8 @@ public class Car {
     //  end position for timer to check
     public boolean hasReachedEnd() {
         // Define the end position coordinates here
-        int endX = 1000;
-        int endY = 1000;
+        int endX = 300;
+        int endY = 300;
 
         // Calculate the distance between the current position and the end position
         double distance = Math.sqrt(Math.pow(endX - initialX, 2) + Math.pow(endY - initialY, 2));
