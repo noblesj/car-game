@@ -4,7 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
+    /*
+      *This class is used to bring object and track to be read to the gamewindo.java
+      * @Author Chris, Ramiz,Jin
+     */
 public class Car {
     private BufferedImage image;
     private double angle = 0;
@@ -63,7 +66,7 @@ public class Car {
     }
 
 
-    //  end position
+    //  end position for timer to check
     public boolean hasReachedEnd() {
         // Define the end position coordinates here
         int endX = 300;
