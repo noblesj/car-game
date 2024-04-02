@@ -22,10 +22,10 @@ public class GameWindow extends JFrame {
     };
 
     private int[][] initialPositions = {
-            {25, 500},
-            {500, 25},
-            {25, 250},
-            {250, 25},
+            {280, 85},
+            {490, 450},
+            {625, 170},
+            {125, 360},
     };
 
     private int[][] endPositions = {
@@ -38,7 +38,7 @@ public class GameWindow extends JFrame {
     public GameWindow() {
         setTitle("Car Movement Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(new Dimension(1000, 1000));
+        setSize(new Dimension(800, 600));
         setLocationRelativeTo(null);
 
         prepareAndShowGameWindow();
@@ -51,7 +51,7 @@ public class GameWindow extends JFrame {
         for (int i = 0; i < numCars; i++) {
             int x = initialPositions[i][0];
             int y = initialPositions[i][1];
-            cars[i] = new Car(carImagePaths[i], x, y, 100, 50,25,50); // Width and height are set here
+            cars[i] = new Car(carImagePaths[i], x, y, 100, 50,15,30); // Width and height are set here
         }
         renderPanel = new RenderPanel(cars);
         add(renderPanel);
