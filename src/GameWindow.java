@@ -1,92 +1,65 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
 
 public class GameWindow extends JFrame {
     private Car car;
-    private JLabel carLabel;
+    private RenderPanel renderPanel;
 
     public GameWindow() {
-        setTitle("Main Window");
+        car = new Car("src/images/carBLUE.png", 250, 250,25,50);
+        renderPanel = new RenderPanel(car);
+        add(renderPanel);
+        setKeyBindings();
+
+        setTitle("Car Movement Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        initializeComponents();
-        addMovementKeyListener();
-        setResizable(false);
-        this.pack();
+        setSize(new Dimension(1000, 1000));
+        setLocationRelativeTo(null);
     }
 
-    private void initializeComponents() {
-        ImageIcon background = new ImageIcon("src/images/background.png");
-        ImageIcon track = new ImageIcon("src/images/trackNEW.png");
+    private void setKeyBindings() {
+        InputMap inputMap = renderPanel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = renderPanel.getActionMap();
 
-        System.out.println("Background Images and Track Image Imported as an ImageIcon");
-
-
-        car = new Car("src/images/carRED.png", 50, 50, 25, 50);
-
-
-        System.out.println("Car created!");
-
-        Image trackImage = track.getImage();
-        int width = trackImage.getWidth(null);
-        int height = trackImage.getHeight(null);
-        Image backgroundImage = background.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
-
-        System.out.println("Background Image is settled!");
-
-
-        JLabel trackLabel = new JLabel(new ImageIcon(trackImage));
-        JLabel backgroundLabel = new JLabel(new ImageIcon(backgroundImage));
-        carLabel = new JLabel(new ImageIcon(car.getImage()));
-
-        System.out.print("Labels created!");
-
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(width, height));
-
-        layeredPane.add(backgroundLabel, Integer.valueOf(1));
-        layeredPane.add(trackLabel, Integer.valueOf(2));
-        layeredPane.add(carLabel, Integer.valueOf(3));
-
-        backgroundLabel.setBounds(0, 0, width, height);
-        trackLabel.setBounds(0, 0, width, height);
-
-        this.add(layeredPane);
-    }
-
-    private void updateCarLabelPosition() {
-        carLabel.setBounds(car.getX(), car.getY(), car.getImage().getWidth(null), car.getImage().getHeight(null));
-
-        System.out.println("Gets here");
-
-        this.repaint();
-
-        System.out.println("Does repaint works? ");
-    }
-
-    private void addMovementKeyListener() {
-        this.addKeyListener(new KeyAdapter() {
+        // Rotate left
+        inputMap.put(KeyStroke.getKeyStroke("LEFT"), "rotateLeft");
+        actionMap.put("rotateLeft", new AbstractAction() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        car.moveForward(5);
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        car.moveBackward(5);
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        car.rotate(-5);
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        car.rotate(5);
-                        break;
-                }
-                updateCarLabelPosition();
+            public void actionPerformed(ActionEvent e) {
+                car.rotate(-10); // Rotate 10 degrees to the left
+                renderPanel.repaint();
             }
         });
-        this.setFocusable(true);
+
+        // Rotate right
+        inputMap.put(KeyStroke.getKeyStroke("RIGHT"), "rotateRight");
+        actionMap.put("rotateRight", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                car.rotate(10); // Rotate 10 degrees to the right
+                renderPanel.repaint();
+            }
+        });
+
+        // Move forward
+        inputMap.put(KeyStroke.getKeyStroke("UP"), "moveForward");
+        actionMap.put("moveForward", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                car.moveForwardOrBackward(-10); // Move 10 pixels forward (in the car's direction)
+                renderPanel.repaint();
+            }
+        });
+
+        // Move backward
+        inputMap.put(KeyStroke.getKeyStroke("DOWN"), "moveBackward");
+        actionMap.put("moveBackward", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                car.moveForwardOrBackward(10); // Move 10 pixels backward (in the car's direction)
+                renderPanel.repaint();
+            }
+        });
     }
 }
