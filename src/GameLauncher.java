@@ -25,12 +25,22 @@ public class GameLauncher extends JFrame {
     }
 
     private int getMaxNumberOfCarsFromUser() {
-        String input = JOptionPane.showInputDialog(null, "Enter maximum number of cars:");
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
+        for (int i=0; i<4; i++){
+            String input = JOptionPane.showInputDialog(null, "Enter maximum number of cars:(up to 4)");
+            try {
+                int numCars = Integer.parseInt(input);
+                if (numCars > 0 && numCars <= 4) {
+                    return numCars;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invaild input. Please enter a number between 1-4");
+                }
+            }catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.");
+            }
+}
+
             JOptionPane.showMessageDialog(null, "Invalid input. Defaulting to 2 cars.");
             return 2; // Default to 2 cars if input is invalid
         }
-    }
+
 }
