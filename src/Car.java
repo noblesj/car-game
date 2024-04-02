@@ -53,7 +53,26 @@ public class Car {
         g2d.setTransform(at);
         g2d.drawImage(image, 0, 0, null);
     }
+    private boolean hasReachedEnd = false;
 
+    //  end position
+    public boolean hasReachedEnd() {
+        // Define the end position coordinates here
+        int endX = 300;
+        int endY = 300;
+
+        // Calculate the distance between the current position and the end position
+        double distance = Math.sqrt(Math.pow(endX - x, 2) + Math.pow(endY - y, 2));
+
+        // Check if the distance is less what required
+        if (distance < 10) {
+            hasReachedEnd = true;
+        } else {
+            hasReachedEnd = false;
+        }
+
+        return hasReachedEnd;
+    }
     // Getters and setters
     public int getX() {
         return x;

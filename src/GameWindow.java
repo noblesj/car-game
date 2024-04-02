@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 public class GameWindow extends JFrame {
     private Car car;
     private RenderPanel renderPanel;
+    private long startTime; // Record the start time
+    private long endTime; // Record the end time
 
     public GameWindow() {
         car = new Car("src/images/carBLUE.png", 250, 250,25,50);
@@ -16,6 +18,7 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(1000, 1000));
         setLocationRelativeTo(null);
+        startRace();
     }
 
     private void setKeyBindings() {
@@ -49,6 +52,10 @@ public class GameWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 car.moveForwardOrBackward(-10); // Move 10 pixels forward (in the car's direction)
                 renderPanel.repaint();
+                if (car.hasReachedEnd() && endTime == 0) {
+                    endTime = System.currentTimeMillis(); // Record the end time
+                    displayRaceResults();
+                }
             }
         });
 
@@ -61,5 +68,13 @@ public class GameWindow extends JFrame {
                 renderPanel.repaint();
             }
         });
+    }
+    private void displayRaceResults() {
+        long elapsedTime = endTime - startTime; // Calculate the elapsed time
+        double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
+        JOptionPane.showMessageDialog(null, "Race completed in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void startRace() {
+        startTime = System.currentTimeMillis(); // Record the start time when the race starts
     }
 }
