@@ -14,7 +14,6 @@ public class Car {
     private int initialX, initialY;
     private int endX, endY;
     private int width, height;
-    private boolean hasReachedEnd = false;
     private double boost;
     private double tires;
     private double engine;
@@ -78,24 +77,6 @@ public class Car {
         g2d.dispose();
     }
 
-
-    //  end position for timer to check
-    public boolean hasReachedEnd() {
-        // Define the end position coordinates here
-        int endX = 624;
-        int endY = 175;
-
-        // Calculate the distance between the current position and the end position
-        double distance = Math.sqrt(Math.pow(endX - initialX, 2) + Math.pow(endY - initialY, 2));
-
-        // Check if the distance is less what required
-        if (distance < 10) {
-            hasReachedEnd = true;
-        } else {
-            hasReachedEnd = false;
-        }
-        return hasReachedEnd;
-    }
     // Getters and setters
     public int getInitialX() {
         return initialX;

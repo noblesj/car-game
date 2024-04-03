@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 
 /**
@@ -14,6 +13,7 @@ public class GameWindow extends JFrame {
     private long startTime;
     private  long endTime;
     private int numCars = 4;
+
 
     private String[] carImagePaths = {
             "src/images/carBLUE.png",
@@ -30,10 +30,10 @@ public class GameWindow extends JFrame {
     };
 
     private int[][] endPositions = {
-            {279, 84},
-            {489, 449},
-            {624, 169},
-            {124, 359},
+            {279, 110},
+            {624, 170},
+            {490, 429},
+            {149, 360},
     };
 
     private int[][] curvePositions = {
@@ -50,7 +50,10 @@ public class GameWindow extends JFrame {
 
         prepareAndShowGameWindow();
         moveLogic();
-        startRace();
+
+    }
+
+    private void startRace() {
     }
 
     private void prepareAndShowGameWindow() {
@@ -73,6 +76,7 @@ public class GameWindow extends JFrame {
             while (!stop) {
                 SwingUtilities.invokeLater(() -> {
                     for (Car car : cars) {
+
                         car.moveForwardOrBackward(-9);
                         boolean nearAnyCurve = false;
                         for (int[] curvePosition : curvePositions) {
@@ -83,6 +87,13 @@ public class GameWindow extends JFrame {
                                 }
                                 nearAnyCurve = true; // The car is near at least one curve
                                 break; // No need to check other curves
+                        car.moveForwardOrBackward(-1);
+                        if ( hasReachedEnd() == true){
+                            break;
+                        }
+                        for (int[] curvePosition : curvePositions) {
+                            if (car.getInitialX() == curvePosition[0] && car.getInitialY() == curvePosition[1]){
+                                car.rotate(90);
                             }
                         }
                         // If the car is not near any curve, reset the processing flag
@@ -103,7 +114,17 @@ public class GameWindow extends JFrame {
         }).start();
     }
 
-
+    private boolean hasReachedEnd() {
+        for (int i = 0; i < cars.length; i++) {
+            Car car = cars[i];
+            if (car.getInitialX() == endPositions[i][0] && car.getInitialY() == endPositions[i][1]) {
+                endTime = System.currentTimeMillis(); // Record the end time
+                displayRaceResults();
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private void displayRaceResults() {
@@ -111,6 +132,7 @@ public class GameWindow extends JFrame {
         double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
         JOptionPane.showMessageDialog(null, "Race completed in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
     }
+
     public void startRace() {
         startTime = System.currentTimeMillis(); // Record the start time when the race starts
     }
