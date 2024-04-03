@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
     /**
-      *This class is used to bring object and track to be read to the gamewindo.java
+      *This class is used to bring object and track to be read to the gamewindow.java
       * @Author Chris, Ramiz,Jin
      */
 public class Car {
