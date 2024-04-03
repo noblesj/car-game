@@ -9,6 +9,10 @@ public class Car {
     private double calculatedSpeed;
     private int startPosition;
     private int endPosition;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     public Car(){
         colorCar = "Not Set";
@@ -30,8 +34,12 @@ public class Car {
         }
         this.colorCar = colorCar;
         this.calculatedSpeed = engine + tires + boost;
+<<<<<<< Updated upstream
         this.startPosition = startPosition;
         this.endPosition = endPosition;
+=======
+        this.image = null;
+>>>>>>> Stashed changes
     }
 
     //GETTERS
@@ -92,6 +100,24 @@ public class Car {
     public void setEndPosition(int a){
         endPosition = a;
     }
+<<<<<<< Updated upstream
 
 
 }
+=======
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public BufferedImage getImage() { return image; }
+    public double getCalculatedSpeed() {
+            return calculatedSpeed;
+        }
+
+
+
+
+}
+>>>>>>> Stashed changes
