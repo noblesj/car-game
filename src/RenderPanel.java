@@ -4,7 +4,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
     /**
-      *@Author Ramiz
+     * This class extends JPanel to create a method to render the game's visual components.
+     * It is responsible for drawing each car image in their each position and track image.
+      *@Author Ramiz, Salim
      */
 class RenderPanel extends JPanel {
     private Car[] cars;

@@ -4,10 +4,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-    /**
-      *This class is used to bring object and track to be read to the gamewindow.java
-      * @Author Chris, Ramiz,Jin
-     */
+/**
+ * Represents a car in the racing game. This class encapsulates properties such as the car's position, speed,
+ * and the image that visually represents the car on the track. It provides methods to move and rotate the car
+ * according to the game's logic. The Car class is essential for the game's dynamics, allowing for the representation
+ * and manipulation of cars' behaviors within the game environment.
+ *
+ * @Author Chris, Ramiz, Jin
+ */
+
 public class Car {
     private BufferedImage image;
     private double angle = 0;
