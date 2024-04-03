@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
  */
 public class GameWindow extends JFrame {
     private Car[] cars;
+
+    private Checkpoint[] checkpoints;
     private RenderPanel renderPanel;
     private long startTime;
     private  long endTime;
@@ -56,7 +58,29 @@ public class GameWindow extends JFrame {
         }
         renderPanel = new RenderPanel(cars);
         add(renderPanel);
+
+        //Checkpoints for the car to check if it has reached the end of the race and the curve points
+        checkpoints = new Checkpoint[8];
+
+        Checkpoint checkpoint1 = new Checkpoint(157, 124, 0);
+        checkpoints[1] = checkpoint1;
+        Checkpoint checkpoint2 = new Checkpoint(618, 117, 0);
+        checkpoints[2] = checkpoint2;
+        Checkpoint checkpoint3 = new Checkpoint(630, 427, 0);
+        checkpoints[3] = checkpoint3;
+        Checkpoint checkpoint4 = new Checkpoint(158, 443, 0);
+        checkpoints[4] = checkpoint4;
+        Checkpoint checkpointA = new Checkpoint(279, 84, 0);
+        checkpoints[5] = checkpointA;
+        Checkpoint checkpointB = new Checkpoint(489, 449, 0);
+        checkpoints[6] = checkpointB;
+        Checkpoint checkpointC = new Checkpoint(624, 169, 0);
+        checkpoints[7] = checkpointC;
+        Checkpoint checkpointD = new Checkpoint(124, 359, 0);
+        checkpoints[8] = checkpointD;
+
     }
+
 
     private void setKeyBindings() {
         InputMap inputMap = renderPanel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
