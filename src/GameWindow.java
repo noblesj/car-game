@@ -3,17 +3,19 @@ import java.awt.*;
 
 
 /**
-  *this is where the second gui for the actual car game is called and method to
-  *run the cargame and who is the winner and how much time the car took to end the race
-  * @Author Ramiz, Jin
+ *this is where the second gui for the actual car game is called and method to
+ *run the cargame and who is the winner and how much time the car took to end the race
+ * @Author Ramiz, Jin
  */
 public class GameWindow extends JFrame {
     private Car[] cars;
     private RenderPanel renderPanel;
     private long startTime;
-    private  long endTime;
+    private long endTime;
     private int numCars = 4;
+    private volatile boolean stop = false;
 
+    private JButton startButton;
 
     private String[] carImagePaths = {
             "src/images/carBLUE.png",
@@ -23,25 +25,26 @@ public class GameWindow extends JFrame {
     };
 
     private int[][] initialPositions = {
-            {280,110},
-            {625,170},
-            {490,430},
-            {150,360}
+            {260, 70},
+            {690, 155},
+            {510, 460},
+            {90, 365}
     };
 
     private int[][] endPositions = {
-            {279, 110},
-            {624, 170},
-            {490, 429},
-            {149, 360},
+            {90, 365},
+            {260, 70},
+            {690, 155},
+            {510, 460}
     };
 
     private int[][] curvePositions = {
-            {625,110},
-            {625,430},
-            {150,430},
-            {150,110}
+            {690, 70},
+            {690, 460},
+            {80, 460},
+            {90, 70}
     };
+
     public GameWindow() {
         setTitle("Car Movement Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,10 +53,7 @@ public class GameWindow extends JFrame {
 
         prepareAndShowGameWindow();
         moveLogic();
-
-    }
-
-    private void startRace() {
+        startRace();
     }
 
     private void prepareAndShowGameWindow() {
@@ -61,23 +61,20 @@ public class GameWindow extends JFrame {
         for (int i = 0; i < numCars; i++) {
             int x = initialPositions[i][0];
             int y = initialPositions[i][1];
-            Car car = new Car(carImagePaths[i], x, y, 100, 50,15,30); // Width and height are set here
-            car.rotate(90*(i+1));
+            Car car = new Car(carImagePaths[i], x, y, 100, 50, 15, 30);
+            car.rotate(90 * (i + 1));
             cars[i] = car;
         }
         renderPanel = new RenderPanel(cars);
         add(renderPanel);
     }
 
-
     private void moveLogic() {
         new Thread(() -> {
-            boolean stop = false;
             while (!stop) {
                 SwingUtilities.invokeLater(() -> {
                     for (Car car : cars) {
-
-                        car.moveForwardOrBackward(-9);
+                        car.moveForwardOrBackward(-car.getSpeed());
                         boolean nearAnyCurve = false;
                         for (int[] curvePosition : curvePositions) {
                             if (Math.abs(car.getInitialX() - curvePosition[0]) < 10 && Math.abs(car.getInitialY() - curvePosition[1]) < 10) {
@@ -87,18 +84,14 @@ public class GameWindow extends JFrame {
                                 }
                                 nearAnyCurve = true; // The car is near at least one curve
                                 break; // No need to check other curves
-                        car.moveForwardOrBackward(-1);
-                        if ( hasReachedEnd() == true){
-                            break;
-                        }
-                        for (int[] curvePosition : curvePositions) {
-                            if (car.getInitialX() == curvePosition[0] && car.getInitialY() == curvePosition[1]){
-                                car.rotate(90);
                             }
                         }
-                        // If the car is not near any curve, reset the processing flag
                         if (!nearAnyCurve) {
                             car.setProcessingCurve(false);
+                        }
+                        // Check if the car has reached its end position
+                        if (hasReachedEnd()) {
+                            stop = true;
                         }
                     }
                     renderPanel.repaint();
@@ -117,7 +110,7 @@ public class GameWindow extends JFrame {
     private boolean hasReachedEnd() {
         for (int i = 0; i < cars.length; i++) {
             Car car = cars[i];
-            if (car.getInitialX() == endPositions[i][0] && car.getInitialY() == endPositions[i][1]) {
+            if (Math.abs(car.getInitialX() - endPositions[i][0]) < 3 && Math.abs(car.getInitialY() - endPositions[i][1]) < 3) {
                 endTime = System.currentTimeMillis(); // Record the end time
                 displayRaceResults();
                 return true;
@@ -125,7 +118,6 @@ public class GameWindow extends JFrame {
         }
         return false;
     }
-
 
     private void displayRaceResults() {
         long elapsedTime = endTime - startTime; // Calculate the elapsed time

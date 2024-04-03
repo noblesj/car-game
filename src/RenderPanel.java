@@ -13,7 +13,7 @@ class RenderPanel extends JPanel {
     public RenderPanel(Car[] cars) {
         this.cars = cars;
         try {
-            backgroundImage = ImageIO.read(new File("src/images/trackNEW.png"));
+            backgroundImage = ImageIO.read(new File("src/images/trackTest.png"));
         } catch (IOException e) {
             e.printStackTrace();
             backgroundImage = null;

@@ -104,9 +104,9 @@ public class Car {
     }
     public boolean isProcessingCurve() {
             return isProcessingCurve;
-        }
+    }
 
     public void setProcessingCurve(boolean processingCurve) {
             isProcessingCurve = processingCurve;
-        }
+    }
 }
