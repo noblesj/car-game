@@ -73,10 +73,9 @@ public class GameWindow extends JFrame {
             while (!stop) {
                 SwingUtilities.invokeLater(() -> {
                     for (Car car : cars) {
-                        car.moveForwardOrBackward(-1);
+                        car.moveForwardOrBackward(-9);
                         for (int[] curvePosition : curvePositions) {
-                            if (car.getInitialX() == curvePosition[0] && car.getInitialY() == curvePosition[1]){
-
+                            if (Math.abs(car.getInitialX() - curvePosition[0]) < 10 && Math.abs(car.getInitialY() - curvePosition[1]) < 10){
                                 car.rotate(90);
                             }
                         }
