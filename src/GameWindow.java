@@ -30,10 +30,10 @@ public class GameWindow extends JFrame {
     };
 
     private int[][] endPositions = {
-            {281, 86},
-            {491, 451},
-            {626, 171},
-            {126, 361},
+            {279, 84},
+            {489, 449},
+            {624, 169},
+            {124, 359},
     };
 
     public GameWindow() {
