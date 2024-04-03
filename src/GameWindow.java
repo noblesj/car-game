@@ -23,10 +23,10 @@ public class GameWindow extends JFrame {
     };
 
     private int[][] initialPositions = {
-            {280, 85},
-            {625, 170},
-            {490, 450},
-            {125, 360},
+            {280,110},
+            {625,170},
+            {490,430},
+            {150,360}
     };
 
     private int[][] endPositions = {
@@ -37,10 +37,10 @@ public class GameWindow extends JFrame {
     };
 
     private int[][] curvePositions = {
-            {281,85},
-            {380,285},
-            {180,285},
-            {180,380}
+            {625,110},
+            {625,430},
+            {150,430},
+            {150,110}
     };
     public GameWindow() {
         setTitle("Car Movement Example");
@@ -71,25 +71,24 @@ public class GameWindow extends JFrame {
         new Thread(() -> {
             boolean stop = false;
             while (!stop) {
-                // Assuming Car class has methods to check position and to rotate
                 SwingUtilities.invokeLater(() -> {
                     for (Car car : cars) {
-                        car.moveForwardOrBackward(-car.getSpeed()); // Move each car forward by 1 unit
-                        // Check if a car has reached any of the curve positions
+                        car.moveForwardOrBackward(-1);
                         for (int[] curvePosition : curvePositions) {
                             if (car.getInitialX() == curvePosition[0] && car.getInitialY() == curvePosition[1]){
+
                                 car.rotate(90);
                             }
                         }
                     }
-                    renderPanel.repaint(); // Repaint the panel to update car positions
+                    renderPanel.repaint();
                 });
 
                 try {
-                    Thread.sleep(100); // Sleep to control the speed of the loop
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    stop = true; // Stop the loop if the thread is interrupted
+                    stop = true;
                 }
             }
         }).start();
