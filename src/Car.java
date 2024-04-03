@@ -19,6 +19,7 @@ public class Car {
     private double tires;
     private double engine;
     private double calculatedSpeed;
+    private boolean isProcessingCurve = false;
 
 
     public Car(String imagePath, int initialX, int initialY, int endX, int endY, int width, int height) {
@@ -117,4 +118,14 @@ public class Car {
     public int getSpeed(){
         return (int) this.calculatedSpeed;
     }
+    public double getAngle(){
+        return angle;
+    }
+    public boolean isProcessingCurve() {
+            return isProcessingCurve;
+        }
+
+    public void setProcessingCurve(boolean processingCurve) {
+            isProcessingCurve = processingCurve;
+        }
 }

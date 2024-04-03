@@ -74,10 +74,20 @@ public class GameWindow extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     for (Car car : cars) {
                         car.moveForwardOrBackward(-9);
+                        boolean nearAnyCurve = false;
                         for (int[] curvePosition : curvePositions) {
-                            if (Math.abs(car.getInitialX() - curvePosition[0]) < 10 && Math.abs(car.getInitialY() - curvePosition[1]) < 10){
-                                car.rotate(90);
+                            if (Math.abs(car.getInitialX() - curvePosition[0]) < 10 && Math.abs(car.getInitialY() - curvePosition[1]) < 10) {
+                                if (!car.isProcessingCurve()) {
+                                    car.rotate(90);
+                                    car.setProcessingCurve(true); // Mark as processing this curve
+                                }
+                                nearAnyCurve = true; // The car is near at least one curve
+                                break; // No need to check other curves
                             }
+                        }
+                        // If the car is not near any curve, reset the processing flag
+                        if (!nearAnyCurve) {
+                            car.setProcessingCurve(false);
                         }
                     }
                     renderPanel.repaint();
@@ -92,6 +102,8 @@ public class GameWindow extends JFrame {
             }
         }).start();
     }
+
+
 
 
     private void displayRaceResults() {
