@@ -15,6 +15,11 @@ public class Car {
     private int endX, endY;
     private int width, height;
     private boolean hasReachedEnd = false;
+    private double boost;
+    private double tires;
+    private double engine;
+    private double calculatedSpeed;
+
 
     public Car(String imagePath, int initialX, int initialY, int endX, int endY, int width, int height) {
         try {
@@ -23,12 +28,20 @@ public class Car {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        engine = (Math.random() * 3) + 2;
+        tires = (Math.random() * 3) + 2;
+        if ((int)(Math.random() * 3 + 1) == 1) {
+            boost = 1;
+        } else {
+            boost = 0;
+        }
         this.initialX = initialX;
         this.initialY = initialY;
         this.endX = endX;
         this.endY = endY;
         this.width = width;
         this.height = height;
+        this.calculatedSpeed = engine + tires + boost;
     }
 
     private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
@@ -61,7 +74,6 @@ public class Car {
         at.rotate(angle, centerX - initialX, centerY - initialY);
         g2d.setTransform(at);
         g2d.drawImage(image, 0, 0, null);
-
         g2d.dispose();
     }
 
