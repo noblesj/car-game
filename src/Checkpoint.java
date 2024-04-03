@@ -1,3 +1,5 @@
+
+
 public class Checkpoint {
 
     private double xPos;

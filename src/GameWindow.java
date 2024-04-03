@@ -24,8 +24,8 @@ public class GameWindow extends JFrame {
 
     private int[][] initialPositions = {
             {280, 85},
-            {490, 450},
             {625, 170},
+            {490, 450},
             {125, 360},
     };
 
@@ -36,6 +36,12 @@ public class GameWindow extends JFrame {
             {124, 359},
     };
 
+    private int[][] curvePositions = {
+            {281,85},
+            {380,285},
+            {180,285},
+            {180,380}
+    };
     public GameWindow() {
         setTitle("Car Movement Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +49,7 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
 
         prepareAndShowGameWindow();
-        setKeyBindings();
+        moveLogic();
         startRace();
     }
 
@@ -52,63 +58,43 @@ public class GameWindow extends JFrame {
         for (int i = 0; i < numCars; i++) {
             int x = initialPositions[i][0];
             int y = initialPositions[i][1];
-            cars[i] = new Car(carImagePaths[i], x, y, 100, 50,15,30); // Width and height are set here
+            Car car = new Car(carImagePaths[i], x, y, 100, 50,15,30); // Width and height are set here
+            car.rotate(90*(i+1));
+            cars[i] = car;
         }
         renderPanel = new RenderPanel(cars);
         add(renderPanel);
     }
 
-    private void setKeyBindings() {
-        InputMap inputMap = renderPanel.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = renderPanel.getActionMap();
 
-        // Rotate left
-        inputMap.put(KeyStroke.getKeyStroke("LEFT"), "rotateLeft");
-        actionMap.put("rotateLeft", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Car car : cars) car.rotate(-10);
-                renderPanel.repaint();
-            }
-        });
-
-        // Rotate right
-        inputMap.put(KeyStroke.getKeyStroke("RIGHT"), "rotateRight");
-        actionMap.put("rotateRight", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Car car : cars) car.rotate(10);
-                renderPanel.repaint();
-            }
-        });
-
-        // Move forward
-        inputMap.put(KeyStroke.getKeyStroke("UP"), "moveForward");
-        actionMap.put("moveForward", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Car car : cars) car.moveForwardOrBackward(-10);
-                renderPanel.repaint();
-                for (Car car : cars) {
-                    if (car.hasReachedEnd() && endTime == 0) {
-                        endTime = System.currentTimeMillis(); // Record the end time when a car finishes
-                        displayRaceResults();
-
+    private void moveLogic() {
+        new Thread(() -> {
+            boolean stop = false;
+            while (!stop) {
+                // Assuming Car class has methods to check position and to rotate
+                SwingUtilities.invokeLater(() -> {
+                    for (Car car : cars) {
+                        car.moveForwardOrBackward(-car.getSpeed()); // Move each car forward by 1 unit
+                        // Check if a car has reached any of the curve positions
+                        for (int[] curvePosition : curvePositions) {
+                            if (car.getInitialX() == curvePosition[0] && car.getInitialY() == curvePosition[1]){
+                                car.rotate(90);
+                            }
+                        }
                     }
+                    renderPanel.repaint(); // Repaint the panel to update car positions
+                });
+
+                try {
+                    Thread.sleep(100); // Sleep to control the speed of the loop
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    stop = true; // Stop the loop if the thread is interrupted
                 }
             }
-        });
-
-        // Move backward
-        inputMap.put(KeyStroke.getKeyStroke("DOWN"), "moveBackward");
-        actionMap.put("moveBackward", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Car car : cars) car.moveForwardOrBackward(10);
-                renderPanel.repaint();
-            }
-        });
+        }).start();
     }
+
 
     private void displayRaceResults() {
         long elapsedTime = endTime - startTime; // Calculate the elapsed time
@@ -118,5 +104,4 @@ public class GameWindow extends JFrame {
     public void startRace() {
         startTime = System.currentTimeMillis(); // Record the start time when the race starts
     }
-
 }

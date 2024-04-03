@@ -114,4 +114,7 @@ public class Car {
     public int getHeight() {
         return height;
     }
+    public int getSpeed(){
+        return (int) this.calculatedSpeed;
+    }
 }
