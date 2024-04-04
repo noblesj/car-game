@@ -14,6 +14,8 @@ public class GameWindow extends JFrame {
     private long endTime;
     private int numCars = 4;
     private volatile boolean stop = false;
+    private volatile boolean resultsDisplayed = false;
+
 
     private JButton startButton;
 
@@ -90,8 +92,11 @@ public class GameWindow extends JFrame {
                             car.setProcessingCurve(false);
                         }
                         // Check if the car has reached its end position
-                        if (hasReachedEnd()) {
+                        if (hasReachedEnd() && !resultsDisplayed) {
                             stop = true;
+                            displayRaceResults();
+                            resultsDisplayed = true;
+
                         }
                     }
                     renderPanel.repaint();
@@ -101,6 +106,7 @@ public class GameWindow extends JFrame {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Thread.currentThread().interrupt();
                     stop = true;
                 }
             }
@@ -110,9 +116,8 @@ public class GameWindow extends JFrame {
     private boolean hasReachedEnd() {
         for (int i = 0; i < cars.length; i++) {
             Car car = cars[i];
-            if (Math.abs(car.getInitialX() - endPositions[i][0]) < 3 && Math.abs(car.getInitialY() - endPositions[i][1]) < 3) {
+            if (Math.abs(car.getInitialX() - endPositions[i][0]) < 10 && Math.abs(car.getInitialY() - endPositions[i][1]) < 10) {
                 endTime = System.currentTimeMillis(); // Record the end time
-                displayRaceResults();
                 return true;
             }
         }
@@ -120,9 +125,11 @@ public class GameWindow extends JFrame {
     }
 
     private void displayRaceResults() {
+        if (!resultsDisplayed){
         long elapsedTime = endTime - startTime; // Calculate the elapsed time
         double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
         JOptionPane.showMessageDialog(null, "Race completed in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
+    }
     }
 
     public void startRace() {
