@@ -32,7 +32,7 @@ public class GameLauncher extends JFrame {
 
     private int getMaxNumberOfCarsFromUser() {
         for (int i=0; i<4; i++){
-            String input = JOptionPane.showInputDialog(null, "Enter maximum number of cars:(up to 4)");
+            String input = JOptionPane.showInputDialog(null, "Number of cars will set to 4 until next update.");
             try {
                 int numCars = Integer.parseInt(input);
                 if (numCars > 0 && numCars <= 4) {
