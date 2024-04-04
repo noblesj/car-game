@@ -96,7 +96,7 @@ public class GameWindow extends JFrame {
                         // Check if the car has reached its end position
                         if (hasReachedEnd() && !resultsDisplayed) {
                             stop = true;
-                            displayRaceResults(carIndex); // Pass the index of the car that reached the end
+                            displayRaceResults(carIndex);
                             resultsDisplayed = true;
                         }
                     }
@@ -132,7 +132,7 @@ public class GameWindow extends JFrame {
             JOptionPane.showMessageDialog(null, "Race completed by car " + (carIndex + 1) + " in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    // Record the start time when the race starts
     public void startRace() {
         startTime = System.currentTimeMillis(); // Record the start time when the race starts
     }
