@@ -75,7 +75,9 @@ public class GameWindow extends JFrame {
         new Thread(() -> {
             while (!stop) {
                 SwingUtilities.invokeLater(() -> {
-                    for (Car car : cars) {
+                    for (int i = 0; i < cars.length; i++) {
+                        int carIndex = i;
+                        Car car = cars[carIndex];
                         car.moveForwardOrBackward(-car.getSpeed());
                         boolean nearAnyCurve = false;
                         for (int[] curvePosition : curvePositions) {
@@ -94,9 +96,8 @@ public class GameWindow extends JFrame {
                         // Check if the car has reached its end position
                         if (hasReachedEnd() && !resultsDisplayed) {
                             stop = true;
-                            displayRaceResults();
+                            displayRaceResults(carIndex); // Pass the index of the car that reached the end
                             resultsDisplayed = true;
-
                         }
                     }
                     renderPanel.repaint();
@@ -124,12 +125,12 @@ public class GameWindow extends JFrame {
         return false;
     }
 
-    private void displayRaceResults() {
-        if (!resultsDisplayed){
-        long elapsedTime = endTime - startTime; // Calculate the elapsed time
-        double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
-        JOptionPane.showMessageDialog(null, "Race completed in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
-    }
+    private void displayRaceResults(int carIndex) {
+        if (!resultsDisplayed) {
+            long elapsedTime = endTime - startTime; // Calculate the elapsed time
+            double seconds = elapsedTime / 1000.0; // Convert milliseconds to seconds
+            JOptionPane.showMessageDialog(null, "Race completed by car " + (carIndex + 1) + " in " + seconds + " seconds", "Race Results", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     public void startRace() {
