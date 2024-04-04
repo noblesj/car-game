@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
  * according to the game's logic. The Car class is essential for the game's dynamics, allowing for the representation
  * and manipulation of cars' behaviors within the game environment.
  *
- * @Author Chris, Ramiz, Jin
+ * @Author Chris, Ramiz, Jin , Salim
  */
 
 public class Car {

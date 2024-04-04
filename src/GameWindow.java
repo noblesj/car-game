@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  *this is where the second gui for the actual car game is called and method to
  *run the cargame and who is the winner and how much time the car took to end the race
- * @Author Ramiz, Jin
+ * @Author Ramiz, Jin, Chris, Salim
  */
 public class GameWindow extends JFrame {
     private Car[] cars;
